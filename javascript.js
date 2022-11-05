@@ -37,9 +37,9 @@ var separacion = 120;
 var iniciodereaparicion = -100;
 //primero haremos que aparezca el background
 var pausa = true;
-let  estadodelJuego = false;
+var  estadodelJuego = false;
 //ajustes del teclado
-teclaprecionada = 0;
+var teclaprecionada = 0;
 imagen.src ="imagenes/flappybirdimage.png";
 //marcador que nos permite llevar el conteo
 var marcador=0;
@@ -66,7 +66,7 @@ function draw()
   }else {
     document.removeEventListener('keyup', detectarSalto,false);
     pantalladederrota();
-    setTimeout(recargarpagina,2000);
+    setTimeout(recargarpagina2,2000);
   }
   }
 }
@@ -204,7 +204,51 @@ function animaciondeperder()
 
 function recargarpagina()
 {
-  location.reload(true);
+    location.reload(true);
+}
+
+function recargarpagina2()
+{
+  document.addEventListener('keyup', detectarSalto,false);
+   marcador=0;
+   anchodeljuego=canvas.width;
+   largodeljuego=canvas.height;
+  //variables que me permiten conocer la posicion de la ave
+   posicionXdelave=canvas.width/2;
+   posicionYdelave=canvas.height/2;
+
+   gravedad=8;
+
+
+   largodelave=50;
+   anchodelave=35;
+   largopixelesdelave=20;
+   anchopixelesdelave=15;
+  //variable que  ayudaran a saber las posiciones de las distintas aves
+
+   avepos = 0;
+  //variables para los dos dintintos escenarios
+   largodelescenario = canvas.width;
+   anchodelesenario = canvas.height-100;
+   escenarios = [[0,0], [146,0]];
+  //var pipesarriba = [[56,322];
+  //var pipesabajo =  [[83,322]];
+  //llamado a la imagen donde estan los materiales a usar
+   posicionXdelobstaculo = canvas.width;
+   pos1= posicionXdelobstaculo-100;
+   pos2= posicionXdelobstaculo - (150 * 2);
+   pos3 = posicionXdelobstaculo-(150*3);
+   pos4 = posicionXdelobstaculo-(150*4);
+   separacionEntreObstaculos = 150;
+   separacion = 120;
+   iniciodereaparicion = -100;
+   //primero haremos que aparezca el background
+   pausa = true;
+   estadodelJuego = false;
+  //ajustes del teclado
+   teclaprecionada = 0;
+  //location.reload(true);
+
 }
 
 function detectarColision()
