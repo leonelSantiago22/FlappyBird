@@ -64,7 +64,7 @@ function draw()
     {
       aumentarmarcador();
       animacionDevolar();
-      //detectarColision();
+      detectarColision();
       recorrido_de_los_pipes();
       posicionYdelave = posicionYdelave + gravedad; //me permite  que el ave se mantenga bajando para asi poder detectar las caidas
   }else {
