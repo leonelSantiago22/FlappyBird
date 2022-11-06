@@ -17,13 +17,14 @@ var anchopixelesdelave=15;
 //variable que  ayudaran a saber las posiciones de las distintas aves
 var Skinaves= [ [113,327], [113,354], [85,489], //aves azules [0][0,1,2]
                 [113,406], [113,431], [113,379],   //aves rojas
-                [31,490],  [57,490], [2,490]       //aves amarillas
+                [29,490],  [58,490], [2,490]       //aves amarillas
                 ];
-var avepos = 0;
+var avepos = 3;
 //variables para los dos dintintos escenarios
 var largodelescenario = canvas.width;
 var anchodelesenario = canvas.height-100;
 var escenarios = [[0,0], [146,0]];
+var escenario = 0;
 //var pipesarriba = [[56,322];
 //var pipesabajo =  [[83,322]];
 //llamado a la imagen donde estan los materiales a usar
@@ -45,28 +46,31 @@ imagen.src ="imagenes/flappybirdimage.png";
 var marcador=0;
 //inicio del juego
 
+var imagenMario = new Image();
+imagenMario.src = "imagenes/mario.png";
 
+var estadoMario = false;
 function draw()
 {
     dibujarBackGround();
     dibujarObstaculos();
-    dibujarAve();
     dibujarMarcador();
+    dibujarAve();
     //que es la ave este dentro de los juegos
     dibujarPausa();
     if(pausa !=false)
     {
     if(posicionYdelave<=largodelescenario+60 && posicionYdelave>=0)
     {
-      animacionDevolar();
-      detectarColision();
       aumentarmarcador();
+      animacionDevolar();
+      //detectarColision();
       recorrido_de_los_pipes();
       posicionYdelave = posicionYdelave + gravedad; //me permite  que el ave se mantenga bajando para asi poder detectar las caidas
   }else {
     document.removeEventListener('keyup', detectarSalto,false);
     pantalladederrota();
-    setTimeout(recargarpagina2,2000);
+    setTimeout(recargarpagina,2000);
   }
   }
 }
@@ -139,11 +143,13 @@ function dibujarPausa()
 function dibujarBackGround()
 {
     //ctx.clearRect(0,0,canvas.width, canvas.height);
-    ctx.drawImage(imagen,escenarios[0][0],escenarios[0][1],144,256,0,0,largodelescenario,anchodelesenario);
+    ctx.drawImage(imagen,escenarios[escenario][0],escenarios[escenario][1],144,256,0,0,largodelescenario,anchodelesenario);
 
     //esta parte es para dibujar la parte inferior
     ctx.drawImage(imagen,291,0,170,57,0,anchodelesenario,largodelescenario,100);
 }
+
+
 
 function dibujarAve()
 {
@@ -181,14 +187,15 @@ function getRandomInt(min, max) {
 
 
 //nos permite permutar entre imagenes de la ave para parecer que vuela
-let auxiliardevuelo = avepos+2
+var auxiliardevuelo = avepos+2
+var restablecedor = avepos;
 function animacionDevolar()
 {
     //ctx.clearRect(posicionXdelobstaculo,0,45, 240);
     avepos++;
     if(avepos>=auxiliardevuelo)
     {
-        avepos = 0;
+        avepos = restablecedor;
     }
 }
 
@@ -306,11 +313,25 @@ function aumentarmarcador()
     if (pos2 == posicionXdelave) {
       marcador++;
     }
+    if (marcador>=30)
+    {
+      escenario=1;
+    }
+    if(marcador==20 )
+    {
+      avepos = 0;
+      auxiliardevuelo = avepos+2
+      restablecedor = avepos;
+    }
+    if (marcador==60) {
+        avepos = 6;
+        auxiliardevuelo = avepos+2;
+        restablecedor = avepos;
+    }
+
     // /console.log(marcador);
 }
 
-var velocidad = 55;
-setInterval(mainprincipal,velocidad);
 
 function pantalladeInicio()
 {
@@ -343,6 +364,9 @@ function pantalladeInicio()
 
   ctx.drawImage(imagen,351,116,57,32, canvas.width/2-50, canvas.height/2+80, 100,50);
 }
+
+var velocidad = 45;
+setInterval(mainprincipal,velocidad);
 
 function mainprincipal()
 {
